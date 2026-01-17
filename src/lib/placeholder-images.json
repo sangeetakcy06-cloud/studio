@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "google-logo",
+      "description": "Google logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1678483790096-26cc771a9dc2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxHb29nbGUlMjBsb2dvfGVufDB8fHx8MTc2ODY2MjQ2N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Google logo"
+    },
+    {
+      "id": "meta-logo",
+      "description": "Meta logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1640441281085-9e2000f3d693?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxNZXRhJTIwbG9nb3xlbnwwfHx8fDE3Njg2NjI0Njd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Meta logo"
+    },
+    {
+      "id": "netflix-logo",
+      "description": "Netflix logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1662338035221-8c94f599f410?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8TmV0ZmxpeCUyMGxvZ298ZW58MHx8fHwxNzY4NjYyNDY3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Netflix logo"
+    },
+    {
+      "id": "amazon-logo",
+      "description": "Amazon logo placeholder",
+      "imageUrl": "https://images.unsplash.com/photo-1649734926695-1b1664e98842?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxBbWF6b24lMjBsb2dvfGVufDB8fHx8MTc2ODY2MjQ2N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "Amazon logo"
+    }
+  ]
 }
