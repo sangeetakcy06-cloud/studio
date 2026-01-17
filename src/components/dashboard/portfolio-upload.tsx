@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Upload, Linkedin } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 
 type Props = {
   onSkillsExtracted: (skills: string[]) => void;
@@ -83,20 +84,20 @@ export function PortfolioUpload({ onSkillsExtracted }: Props) {
   const handleLinkedInSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const linkedInInput = form.elements.namedItem("linkedin") as HTMLInputElement;
-    const linkedInUrl = linkedInInput.value;
+    const linkedInInput = form.elements.namedItem("linkedin-text") as HTMLTextAreaElement;
+    const linkedInText = linkedInInput.value;
 
-    if (!linkedInUrl) {
+    if (!linkedInText) {
         toast({
-            title: "No LinkedIn URL",
-            description: "Please provide your LinkedIn profile URL.",
+            title: "No LinkedIn profile text",
+            description: "Please paste your LinkedIn profile content.",
             variant: "destructive",
         });
         return;
     }
     
     startTransition(async () => {
-        const result = await handleExtractSkillsFromLinkedIn(linkedInUrl);
+        const result = await handleExtractSkillsFromLinkedIn(linkedInText);
 
         if (result.error) {
             toast({
@@ -118,7 +119,7 @@ export function PortfolioUpload({ onSkillsExtracted }: Props) {
     <Card>
       <CardHeader>
         <CardTitle>Portfolio Upload</CardTitle>
-        <CardDescription>Upload your resume or link your LinkedIn profile to automatically extract your skills.</CardDescription>
+        <CardDescription>Upload your resume or paste your LinkedIn profile to automatically extract your skills.</CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="resume" className="w-full">
@@ -146,15 +147,18 @@ export function PortfolioUpload({ onSkillsExtracted }: Props) {
             <TabsContent value="linkedin" className="pt-4">
                 <form onSubmit={handleLinkedInSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="linkedin-url">LinkedIn Profile URL</Label>
-                         <div className="flex items-center gap-2">
-                            <Input id="linkedin-url" name="linkedin" placeholder="https://linkedin.com/in/yourprofile" />
-                            <Button type="submit" disabled={isPending}>
-                                {isPending ? <Loader2 className="animate-spin" /> : <Linkedin />}
-                                Extract Skills
-                            </Button>
-                        </div>
+                        <Label htmlFor="linkedin-text">LinkedIn Profile Content</Label>
+                         <Textarea 
+                            id="linkedin-text"
+                            name="linkedin-text"
+                            placeholder="To get your profile content, go to your LinkedIn profile, click 'More' -> 'Save to PDF', then copy and paste the text from the PDF here."
+                            rows={8}
+                         />
                     </div>
+                    <Button type="submit" disabled={isPending} className="w-full">
+                        {isPending ? <Loader2 className="animate-spin" /> : <Linkedin />}
+                        Extract Skills
+                    </Button>
                 </form>
             </TabsContent>
         </Tabs>
