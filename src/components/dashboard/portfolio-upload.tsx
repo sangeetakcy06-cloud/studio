@@ -7,7 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2, Upload, Linkedin } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Props = {
   onSkillsExtracted: (skills: string[]) => void;
@@ -35,7 +36,7 @@ export function PortfolioUpload({ onSkillsExtracted }: Props) {
     });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleResumeSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     const fileInput = form.elements.namedItem("resume") as HTMLInputElement;
@@ -79,38 +80,91 @@ export function PortfolioUpload({ onSkillsExtracted }: Props) {
     });
   };
 
+  const handleLinkedInSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const linkedInInput = form.elements.namedItem("linkedin") as HTMLInputElement;
+    const linkedInUrl = linkedInInput.value;
+
+    if (!linkedInUrl) {
+        toast({
+            title: "No LinkedIn URL",
+            description: "Please provide your LinkedIn profile URL.",
+            variant: "destructive",
+        });
+        return;
+    }
+    
+    // In a real application, you would have a Genkit flow to scrape the LinkedIn URL and extract skills.
+    startTransition(() => {
+        toast({
+            title: "Coming Soon!",
+            description: "Skill extraction from LinkedIn is under development.",
+        });
+    });
+  }
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Portfolio Upload</CardTitle>
-        <CardDescription>Upload your resume to automatically extract your skills. You can also link your profiles.</CardDescription>
+        <CardDescription>Upload your resume or link your LinkedIn profile to automatically extract your skills.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="resume">Upload Resume</Label>
-            <div className="flex items-center gap-2">
-                <Input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={handleFileChange} />
-                <Label htmlFor="resume" className="flex-grow border rounded-md px-3 py-2 text-sm text-muted-foreground cursor-pointer hover:bg-secondary">
-                    {fileName || 'Choose a file...'}
-                </Label>
-                <Button type="submit" disabled={isPending}>
-                {isPending ? <Loader2 className="animate-spin" /> : <Upload />}
-                Extract Skills
-                </Button>
-            </div>
-          </div>
-          <div className="space-y-4">
-             <div className="space-y-2">
-                <Label htmlFor="linkedin">LinkedIn Profile</Label>
-                <Input id="linkedin" placeholder="https://linkedin.com/in/yourprofile" />
+        <Tabs defaultValue="resume" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="resume">Resume</TabsTrigger>
+                <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
+            </TabsList>
+            <TabsContent value="resume" className="pt-4">
+                <form onSubmit={handleResumeSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="resume-file">Upload Resume</Label>
+                        <div className="flex items-center gap-2">
+                            <Input id="resume-file" name="resume" type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={handleFileChange} />
+                            <Label htmlFor="resume-file" className="flex-grow border rounded-md px-3 py-2 text-sm text-muted-foreground cursor-pointer hover:bg-secondary">
+                                {fileName || 'Choose a file...'}
+                            </Label>
+                            <Button type="submit" disabled={isPending}>
+                                {isPending ? <Loader2 className="animate-spin" /> : <Upload />}
+                                Extract Skills
+                            </Button>
+                        </div>
+                    </div>
+                </form>
+            </TabsContent>
+            <TabsContent value="linkedin" className="pt-4">
+                <form onSubmit={handleLinkedInSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="linkedin-url">LinkedIn Profile URL</Label>
+                         <div className="flex items-center gap-2">
+                            <Input id="linkedin-url" name="linkedin" placeholder="https://linkedin.com/in/yourprofile" />
+                            <Button type="submit" disabled={isPending}>
+                                {isPending ? <Loader2 className="animate-spin" /> : <Linkedin />}
+                                Extract Skills
+                            </Button>
+                        </div>
+                    </div>
+                </form>
+            </TabsContent>
+        </Tabs>
+        
+        <div className="space-y-4 pt-6">
+            <div className="relative pt-4">
+                <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-card px-2 text-muted-foreground">
+                        Optional
+                    </span>
+                </div>
             </div>
             <div className="space-y-2">
                 <Label htmlFor="github">GitHub Profile</Label>
                 <Input id="github" placeholder="https://github.com/yourusername" />
             </div>
-          </div>
-        </form>
+        </div>
       </CardContent>
     </Card>
   );
