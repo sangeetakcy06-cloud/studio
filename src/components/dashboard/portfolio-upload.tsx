@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Upload, Linkedin } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 
 type Props = {
   onSkillsExtracted: (skills: string[]) => void;
@@ -84,20 +83,20 @@ export function PortfolioUpload({ onSkillsExtracted }: Props) {
   const handleLinkedInSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const linkedInInput = form.elements.namedItem("linkedin-content") as HTMLTextAreaElement;
-    const linkedInContent = linkedInInput.value;
+    const linkedInInput = form.elements.namedItem("linkedin-url") as HTMLInputElement;
+    const linkedInUrl = linkedInInput.value;
 
-    if (!linkedInContent) {
+    if (!linkedInUrl) {
         toast({
-            title: "No LinkedIn content",
-            description: "Please paste your LinkedIn profile content.",
+            title: "No LinkedIn URL",
+            description: "Please paste your LinkedIn profile URL.",
             variant: "destructive",
         });
         return;
     }
     
     startTransition(async () => {
-        const result = await handleExtractSkillsFromLinkedIn(linkedInContent);
+        const result = await handleExtractSkillsFromLinkedIn(linkedInUrl);
 
         if (result.error) {
             toast({
@@ -147,12 +146,12 @@ export function PortfolioUpload({ onSkillsExtracted }: Props) {
             <TabsContent value="linkedin" className="pt-4">
                 <form onSubmit={handleLinkedInSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="linkedin-content">LinkedIn Profile Content</Label>
-                         <Textarea 
-                            id="linkedin-content"
-                            name="linkedin-content"
-                            placeholder="Go to your LinkedIn profile, click 'More' -> 'Save to PDF', then copy and paste the text content here."
-                            rows={8}
+                        <Label htmlFor="linkedin-url">LinkedIn Profile URL</Label>
+                         <Input 
+                            id="linkedin-url"
+                            name="linkedin-url"
+                            type="url"
+                            placeholder="https://www.linkedin.com/in/your-profile"
                          />
                     </div>
                     <Button type="submit" disabled={isPending} className="w-full">

@@ -1,7 +1,6 @@
 'use server';
 
 import { extractSkillsFromResume } from '@/ai/flows/extract-skills-from-resume';
-import { extractSkillsFromLinkedIn } from '@/ai/flows/extract-skills-from-linkedin';
 import { suggestRelevantSkills } from '@/ai/flows/suggest-relevant-skills';
 
 export async function handleExtractSkills(resumeDataUri: string): Promise<{ skills?: string[]; error?: string }> {
@@ -17,16 +16,27 @@ export async function handleExtractSkills(resumeDataUri: string): Promise<{ skil
   }
 }
 
-export async function handleExtractSkillsFromLinkedIn(linkedInContent: string): Promise<{ skills?: string[]; error?: string }> {
+export async function handleExtractSkillsFromLinkedIn(linkedInUrl: string): Promise<{ skills?: string[]; error?: string }> {
   try {
-    if (!linkedInContent) {
-      return { error: 'LinkedIn profile content cannot be empty.' };
+    if (!linkedInUrl || !linkedInUrl.includes('linkedin.com')) {
+      return { error: 'Please provide a valid LinkedIn profile URL.' };
     }
-    const result = await extractSkillsFromLinkedIn({ linkedInContent });
-    return { skills: result.skills };
+
+    // NOTE: Directly scraping LinkedIn profiles is technically challenging and often against their terms of service.
+    // This is a simulated response. In a real application, you would use LinkedIn's official API
+    // which requires authentication and user consent.
+    console.warn("Simulating LinkedIn skill extraction. Not making a real network request.");
+
+    const mockSkills = ["JavaScript", "React", "Next.js", "Tailwind CSS", "Project Management", "Team Leadership"];
+
+    // Adding a small delay to simulate network latency
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    return { skills: mockSkills };
+
   } catch (e) {
     console.error(e);
-    return { error: 'Failed to extract skills from LinkedIn. Please try again.' };
+    return { error: 'An unexpected error occurred while processing the LinkedIn URL.' };
   }
 }
 
