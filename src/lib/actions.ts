@@ -17,12 +17,12 @@ export async function handleExtractSkills(resumeDataUri: string): Promise<{ skil
   }
 }
 
-export async function handleExtractSkillsFromLinkedIn(linkedInText: string): Promise<{ skills?: string[]; error?: string }> {
+export async function handleExtractSkillsFromLinkedIn(linkedInUrl: string): Promise<{ skills?: string[]; error?: string }> {
   try {
-    if (!linkedInText) {
-      return { error: 'LinkedIn profile text cannot be empty.' };
+    if (!linkedInUrl) {
+      return { error: 'LinkedIn profile URL cannot be empty.' };
     }
-    const result = await extractSkillsFromLinkedIn({ profileText: linkedInText });
+    const result = await extractSkillsFromLinkedIn({ profileUrl: linkedInUrl });
     return { skills: result.skills };
   } catch (e) {
     console.error(e);

@@ -3,7 +3,7 @@
 /**
  * @fileOverview A function that extracts skills from a LinkedIn profile.
  *
- * - extractSkillsFromLinkedIn - Extracts skills from a LinkedIn profile text.
+ * - extractSkillsFromLinkedIn - Extracts skills from a LinkedIn profile URL.
  * - ExtractSkillsFromLinkedInInput - The input type for the extractSkillsFromLinkedIn function.
  * - ExtractSkillsFromLinkedInOutput - The return type for the extractSkillsFromLinkedIn function.
  */
@@ -12,7 +12,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const ExtractSkillsFromLinkedInInputSchema = z.object({
-  profileText: z.string().describe('The text content of the LinkedIn profile.'),
+  profileUrl: z.string().describe('The URL of the LinkedIn profile.'),
 });
 export type ExtractSkillsFromLinkedInInput = z.infer<
   typeof ExtractSkillsFromLinkedInInputSchema
@@ -37,11 +37,11 @@ const extractSkillsFromLinkedInPrompt = ai.definePrompt({
   name: 'extractSkillsFromLinkedInPrompt',
   input: {schema: ExtractSkillsFromLinkedInInputSchema},
   output: {schema: ExtractSkillsFromLinkedInOutputSchema},
-  prompt: `You are an expert HR assistant. You will be given the text content of a LinkedIn profile.
-      Based on the provided text, extract the key skills of the candidate.
+  prompt: `You are an expert HR assistant. You will be given the URL of a LinkedIn profile.
+      Based on the information publicly available at this URL, extract the key skills of the candidate.
       Return the skills as a simple array of strings.
 
-      LinkedIn Profile Text: {{{profileText}}}`,
+      LinkedIn Profile URL: {{{profileUrl}}}`,
 });
 
 const extractSkillsFromLinkedInFlow = ai.defineFlow(
