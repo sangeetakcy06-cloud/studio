@@ -1,6 +1,7 @@
 'use server';
 
 import { extractSkillsFromResume } from '@/ai/flows/extract-skills-from-resume';
+import { extractSkillsFromLinkedIn } from '@/ai/flows/extract-skills-from-linkedin';
 import { suggestRelevantSkills } from '@/ai/flows/suggest-relevant-skills';
 
 export async function handleExtractSkills(resumeDataUri: string): Promise<{ skills?: string[]; error?: string }> {
@@ -13,6 +14,25 @@ export async function handleExtractSkills(resumeDataUri: string): Promise<{ skil
   } catch (e) {
     console.error(e);
     return { error: 'Failed to extract skills. Please try again.' };
+  }
+}
+
+export async function handleExtractSkillsFromLinkedIn(linkedInUrl: string): Promise<{ skills?: string[]; error?: string }> {
+  try {
+    if (!linkedInUrl) {
+      return { error: 'LinkedIn URL cannot be empty.' };
+    }
+    try {
+        new URL(linkedInUrl);
+    } catch (_) {
+        return { error: 'Invalid LinkedIn URL provided.' };
+    }
+
+    const result = await extractSkillsFromLinkedIn({ linkedInUrl });
+    return { skills: result.skills };
+  } catch (e) {
+    console.error(e);
+    return { error: 'Failed to extract skills from LinkedIn. Please try again.' };
   }
 }
 

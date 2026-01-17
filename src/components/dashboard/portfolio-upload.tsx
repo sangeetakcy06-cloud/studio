@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { handleExtractSkills } from "@/lib/actions";
+import { handleExtractSkills, handleExtractSkillsFromLinkedIn } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -95,12 +95,22 @@ export function PortfolioUpload({ onSkillsExtracted }: Props) {
         return;
     }
     
-    // In a real application, you would have a Genkit flow to scrape the LinkedIn URL and extract skills.
-    startTransition(() => {
-        toast({
-            title: "Coming Soon!",
-            description: "Skill extraction from LinkedIn is under development.",
-        });
+    startTransition(async () => {
+        const result = await handleExtractSkillsFromLinkedIn(linkedInUrl);
+
+        if (result.error) {
+            toast({
+                title: "Error",
+                description: result.error,
+                variant: "destructive",
+            });
+        } else if (result.skills) {
+            onSkillsExtracted(result.skills);
+            toast({
+                title: "Success!",
+                description: "Your skills have been extracted from your LinkedIn profile.",
+            });
+        }
     });
   }
 

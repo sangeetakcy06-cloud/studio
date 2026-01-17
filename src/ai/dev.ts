@@ -3,3 +3,4 @@ config();
 
 import '@/ai/flows/suggest-relevant-skills.ts';
 import '@/ai/flows/extract-skills-from-resume.ts';
+import '@/ai/flows/extract-skills-from-linkedin.ts';
