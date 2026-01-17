@@ -103,11 +103,11 @@ export function PortfolioUpload({ onSkillsExtracted }: Props) {
           <div className="space-y-4">
              <div className="space-y-2">
                 <Label htmlFor="linkedin">LinkedIn Profile</Label>
-                <Input id="linkedin" placeholder="https://linkedin.com/in/yourprofile" disabled />
+                <Input id="linkedin" placeholder="https://linkedin.com/in/yourprofile" />
             </div>
             <div className="space-y-2">
                 <Label htmlFor="github">GitHub Profile</Label>
-                <Input id="github" placeholder="https://github.com/yourusername" disabled />
+                <Input id="github" placeholder="https://github.com/yourusername" />
             </div>
           </div>
         </form>
